@@ -1,30 +1,27 @@
 import {
   Box,
   Button,
+  Center,
   FormControl,
   Heading,
-  Icon,
   Input,
+  Spinner,
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
-import { Logo } from "../components/Logo";
-import Details from "../components/Details";
-import UrlTable from "../components/UrlTable";
-import { useLogout } from "../hooks/useLogout";
-import { useAppContext } from "../hooks/useAppContext";
-import { MdLogout } from "react-icons/md";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import Details from "../components/Details";
+import { Navbar } from "../components/Navbar";
+import UrlTable from "../components/UrlTable";
+import { useAppContext } from "../hooks/useAppContext";
 import { useErrorHandler } from "../hooks/useErrorHandler";
 
 const Home = () => {
   const toast = useToast();
-  const { logout } = useLogout();
   const { register, handleSubmit, reset } = useForm();
   const [show, setShow] = useState(false);
   const { user } = useAppContext();
@@ -46,20 +43,17 @@ const Home = () => {
       queryClient.invalidateQueries({ queryKey: ["urls"] });
     },
     onError: (error) => {
-      if (error.response.data.invalidUrl) {
+      if (error.response?.data?.invalidUrl) {
         return toast({
           title: "Please enter a Valid URL!",
           status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: "top",
         });
       }
       errorHandler(error);
     },
   });
 
-  const { data: userData } = useQuery({
+  const { data: userData, isLoading } = useQuery({
     queryKey: ["urls"],
     queryFn: async () => {
       const { data } = await axios.get("/api/tinylink", {
@@ -85,39 +79,8 @@ const Home = () => {
 
   return (
     <>
-      {/* Navbar */}
-      <Box as="nav" boxShadow="md" bg={"gray.200"}>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          px={{
-            base: "2",
-            lg: "6",
-          }}
-          py={{
-            base: "2",
-            lg: "3",
-          }}
-        >
-          <Link to={"/"}>
-            <Logo />
-          </Link>
-          <Button
-            colorScheme="red"
-            onClick={logout}
-            rightIcon={<Icon as={MdLogout} />}
-            size={{
-              base: "sm",
-              md: "md",
-            }}
-          >
-            Logout
-          </Button>
-        </Box>
-      </Box>
-      {/* Navbar Ends */}
-      <VStack spacing={4} my={10}>
+      <Navbar />
+      <VStack spacing={4} mt={5} mb={10}>
         {!show && (
           <motion.div
             animate={{ opacity: 1, scale: 1 }}
@@ -185,6 +148,11 @@ const Home = () => {
           <UrlTable data={userData} liftState={liftState} />
         )}
       </VStack>
+      {isLoading && (
+        <Center mt={"5rem"}>
+          <Spinner size={"lg"} />
+        </Center>
+      )}
     </>
   );
 };

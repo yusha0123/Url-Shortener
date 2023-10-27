@@ -13,7 +13,7 @@ const Root = () => {
       <Box
         mx="auto"
         width={{
-          base: "95%%",
+          base: "95%",
           sm: "95",
           md: "90%",
           lg: "85%",
@@ -49,7 +49,7 @@ const Root = () => {
                 size={{
                   base: "md",
                   sm: "lg",
-                  sm: "xl",
+                  lg: "xl",
                 }}
               >
                 Effortlessly Condense, Share, and Monitor Your URLs!
