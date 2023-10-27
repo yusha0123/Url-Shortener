@@ -6,7 +6,10 @@ export const Logo = () => {
   return (
     <Heading
       as="h1"
-      size={"lg"}
+      size={{
+        base: "md",
+        md: "lg",
+      }}
       color={"pink.500"}
       display={"flex"}
       alignItems={"center"}

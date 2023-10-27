@@ -53,7 +53,11 @@ const Login = () => {
           bg="white"
           boxShadow={"lg"}
           p={6}
-          w={{ base: "90%", md: "50%", lg: "30%" }}
+          minW={{
+            lg: "400px",
+          }}
+          w={["90%", "65%", "50%", "40%", "25%"]}
+          maxW={"576px"}
         >
           <motion.div
             initial={{ opacity: 0 }}
@@ -69,7 +73,7 @@ const Login = () => {
                 {login.isError && (
                   <Alert status="error" borderRadius={8} mb={2}>
                     <AlertIcon />
-                    {login.error.response.data.message
+                    {login.error?.response?.data?.message
                       ? login.error.response.data.message
                       : "Something went wrong!"}
                   </Alert>

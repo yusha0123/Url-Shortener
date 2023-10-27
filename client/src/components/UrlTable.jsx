@@ -220,7 +220,13 @@ const UrlTable = ({ data, liftState }) => {
       </Modal>
       {/* Edit Modal Ends*/}
       <TableContainer boxShadow={"md"}>
-        <Table variant="simple">
+        <Table
+          variant="simple"
+          size={{
+            base: "sm",
+            lg: "md",
+          }}
+        >
           <Thead>
             <Tr>
               <Th textAlign={"center"}>#</Th>
@@ -254,6 +260,10 @@ const UrlTable = ({ data, liftState }) => {
                     <MenuButton
                       as={Button}
                       rightIcon={<Icon as={BiSolidChevronsDown} />}
+                      size={{
+                        base: "sm",
+                        lg: "md",
+                      }}
                     >
                       Menu
                     </MenuButton>

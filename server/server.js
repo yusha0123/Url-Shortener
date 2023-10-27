@@ -1,11 +1,19 @@
 const express = require("express");
-const connectDb = require("./config/dbconnect");
+const path = require("path");
+const cors = require("cors");
+const connectDb = require("./utils/dbconnect");
 const errorHandler = require("./middleware/error");
 const viewsHandler = require("./routes/views");
-const path = require("path");
 require("dotenv").config();
 
 const app = express();
+if (process.env.NODE_ENV !== "production") {
+  app.use(
+    cors({
+      origin: process.env.FRONT_END_URL,
+    })
+  );
+}
 app.use(express.static(path.join(__dirname, "../client", "dist")));
 connectDb();
 const port = process.env.PORT || 5000;

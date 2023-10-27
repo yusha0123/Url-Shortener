@@ -19,7 +19,7 @@ export const Navbar = () => {
   const isSmallScreen = useBreakpointValue({ base: true, md: false });
 
   return (
-    <Box as="nav" boxShadow="md">
+    <Box as="nav" boxShadow="sm" zIndex={10}>
       <Box
         display="flex"
         justifyContent="space-between"
@@ -46,6 +46,7 @@ export const Navbar = () => {
               aria-label="Options"
               icon={<Icon as={GiHamburgerMenu} />}
               variant="outline"
+              size={"sm"}
             />
             <MenuList>
               <MenuItem onClick={() => navigate("/login")}>Sign in</MenuItem>

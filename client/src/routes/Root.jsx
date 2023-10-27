@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Image, Heading, Button, Grid, GridItem } from "@chakra-ui/react";
-import HeroImage from "../assets/HeroImage.jpg";
+import HeroImage from "../assets/HeroImage.webp";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { motion } from "framer-motion";
@@ -8,18 +8,27 @@ import { motion } from "framer-motion";
 const Root = () => {
   const navigate = useNavigate();
   return (
-    <section style={{ overflowX: "hidden" }}>
+    <section style={{ overflowX: "hidden", width: "100%", minHeight: "100vh" }}>
       <Navbar />
       <Box
-        sx={{ marginTop: 5 }}
-        display="flex"
-        width="90%"
-        height="100%"
         mx="auto"
+        width={{
+          base: "95%%",
+          sm: "95",
+          md: "90%",
+          lg: "85%",
+        }}
+        maxW={"1024px"}
+        mt={6}
       >
         <Grid
           templateColumns={{ base: "1fr", md: "1fr 1fr" }}
-          gap={6}
+          gap={{
+            base: 2,
+            md: 4,
+            lg: 6,
+          }}
+          height={"100%"}
           justifyContent="center"
           alignItems="center"
         >
@@ -35,12 +44,23 @@ const Root = () => {
                 alignItems: "center",
               }}
             >
-              <Heading textAlign="center">
-                Shorten, share and track your URLs with ease!
+              <Heading
+                textAlign={"center"}
+                size={{
+                  base: "md",
+                  sm: "lg",
+                  sm: "xl",
+                }}
+              >
+                Effortlessly Condense, Share, and Monitor Your URLs!
               </Heading>
               <Button
                 colorScheme="whatsapp"
-                size="lg"
+                size={{
+                  base: "sm",
+                  sm: "md",
+                  lg: "lg",
+                }}
                 onClick={() => navigate("/register")}
               >
                 Get Started

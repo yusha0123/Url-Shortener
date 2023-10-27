@@ -107,6 +107,10 @@ const Home = () => {
             colorScheme="red"
             onClick={logout}
             rightIcon={<Icon as={MdLogout} />}
+            size={{
+              base: "sm",
+              md: "md",
+            }}
           >
             Logout
           </Button>
@@ -127,9 +131,17 @@ const Home = () => {
               boxShadow={"md"}
               p={6}
               mx={"auto"}
-              w={{ base: "90%", md: "70%", lg: "50%" }}
+              maxW={"767px"}
+              w={["90%", "75%", "65%", "50%", "40%"]}
             >
-              <Heading fontSize="2xl" mb={3} textAlign={"center"}>
+              <Heading
+                fontSize={{
+                  base: "xl",
+                  md: "2xl",
+                }}
+                mb={3}
+                textAlign={"center"}
+              >
                 Paste the URL to be shortened
               </Heading>
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -138,6 +150,10 @@ const Home = () => {
                     <Input
                       autoComplete="off"
                       placeholder="Your URL here"
+                      size={{
+                        base: "sm",
+                        md: "md",
+                      }}
                       {...register("redirectUrl")}
                     />
                   </FormControl>
@@ -145,6 +161,10 @@ const Home = () => {
                     colorScheme="gray"
                     width={"40%"}
                     type="submit"
+                    size={{
+                      base: "sm",
+                      md: "md",
+                    }}
                     isLoading={shorten.isLoading}
                   >
                     Shorten

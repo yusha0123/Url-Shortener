@@ -37,7 +37,8 @@ const Details = ({ longUrl, shortUrl, liftState }) => {
         boxShadow={"md"}
         p={5}
         mx={"auto"}
-        w={{ base: "90%", md: "70%", lg: "50%" }}
+        maxW={"767px"}
+        w={["90%", "75%", "65%", "50%", "40%"]}
         display={"flex"}
         flexDirection={"column"}
         gap={3}
@@ -45,7 +46,15 @@ const Details = ({ longUrl, shortUrl, liftState }) => {
       >
         <Text>Long URL:</Text>
         <InputGroup>
-          <Input variant="outline" value={longUrl} readOnly />
+          <Input
+            variant="outline"
+            value={longUrl}
+            readOnly
+            size={{
+              base: "sm",
+              md: "md",
+            }}
+          />
           <InputRightElement h={"full"}>
             <Tooltip
               label={copiedLongUrl ? "Copied!" : "Copy"}
@@ -65,7 +74,15 @@ const Details = ({ longUrl, shortUrl, liftState }) => {
         </InputGroup>
         <Text>Short URL:</Text>
         <InputGroup>
-          <Input variant="outline" value={shortUrl} readOnly />
+          <Input
+            variant="outline"
+            value={shortUrl}
+            readOnly
+            size={{
+              base: "sm",
+              md: "md",
+            }}
+          />
           <InputRightElement h={"full"}>
             <Tooltip
               label={copiedShortUrl ? "Copied!" : "Copy"}
@@ -83,7 +100,14 @@ const Details = ({ longUrl, shortUrl, liftState }) => {
             </Tooltip>
           </InputRightElement>
         </InputGroup>
-        <Button colorScheme="blue" onClick={liftState}>
+        <Button
+          colorScheme="blue"
+          onClick={liftState}
+          size={{
+            base: "sm",
+            md: "md",
+          }}
+        >
           Shorten another URL
         </Button>
       </Box>
