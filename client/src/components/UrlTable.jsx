@@ -60,6 +60,17 @@ const UrlTable = ({ data, liftState }) => {
   const { errorHandler } = useErrorHandler();
   const queryClient = useQueryClient();
 
+  const handleCopyLink = async (link) => {
+    try {
+      await navigator.clipboard.writeText(link);
+    } catch (error) {
+      toast({
+        title: "Unsecured Origin!",
+        status: "error",
+      });
+    }
+  };
+
   const deleteMutation = useMutation({
     mutationFn: () => {
       setOpenDialog(false);
@@ -286,9 +297,7 @@ const UrlTable = ({ data, liftState }) => {
                         display={"flex"}
                         gap={2}
                         alignItems={"center"}
-                        onClick={() =>
-                          navigator.clipboard.writeText(item.shortUrl)
-                        }
+                        onClick={() => handleCopyLink(item.shortUrl)}
                       >
                         <Icon as={BsClipboardFill} />
                         Copy Link
