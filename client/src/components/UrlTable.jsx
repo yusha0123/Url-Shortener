@@ -144,10 +144,10 @@ const UrlTable = ({ data, liftState }) => {
 
   return (
     <>
-      {updateMutation.isLoading || deleteMutation.isLoading ? (
+      {updateMutation.isPending || deleteMutation.isPending ? (
         <LoadingToast
           message={
-            updateMutation.isLoading ? "Updating url..." : "Deleting url..."
+            updateMutation.isPending ? "Updating url..." : "Deleting url..."
           }
         />
       ) : null}

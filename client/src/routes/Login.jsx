@@ -115,7 +115,7 @@ const Login = () => {
                 <Button
                   colorScheme="messenger"
                   type="submit"
-                  isLoading={login.isLoading}
+                  isLoading={login.isPending}
                 >
                   Continue
                 </Button>

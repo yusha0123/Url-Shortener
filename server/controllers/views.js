@@ -2,7 +2,7 @@ const URL = require("../models/Url");
 const path = require("path");
 
 const handleFrontEnd = (req, res, next) => {
-  return res.sendFile(path.join(__dirname, "../../client/dist", "index.html"));
+  return res.sendFile(path.join(__dirname, "../dist", "index.html"));
 };
 
 const handleRedirect = async (req, res, next) => {
@@ -10,9 +10,7 @@ const handleRedirect = async (req, res, next) => {
   try {
     const url = await URL.findOne({ shortId: id });
     if (!url) {
-      return res.sendFile(
-        path.join(__dirname, "../../client/dist", "index.html")
-      );
+      return res.sendFile(path.join(__dirname, "../dist", "index.html"));
     }
     url.clicks++;
     url.save();

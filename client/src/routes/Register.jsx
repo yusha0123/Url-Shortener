@@ -123,7 +123,7 @@ const Register = () => {
                 <Button
                   colorScheme="messenger"
                   type="submit"
-                  isLoading={signup.isLoading}
+                  isLoading={signup.isPending}
                 >
                   Create Account
                 </Button>

@@ -14,9 +14,9 @@ if (process.env.NODE_ENV !== "production") {
     })
   );
 }
-app.use(express.static(path.join(__dirname, "../client", "dist")));
+app.use(express.static(path.join(__dirname, "dist")));
 connectDb();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));

@@ -53,7 +53,7 @@ const Home = () => {
     },
   });
 
-  const { data: userData, isLoading } = useQuery({
+  const { data: userData, isPending } = useQuery({
     queryKey: ["urls"],
     queryFn: async () => {
       const { data } = await axios.get("/api/tinylink", {
@@ -128,7 +128,7 @@ const Home = () => {
                       base: "sm",
                       md: "md",
                     }}
-                    isLoading={shorten.isLoading}
+                    isLoading={shorten.isPending}
                   >
                     Shorten
                   </Button>
@@ -148,7 +148,7 @@ const Home = () => {
           <UrlTable data={userData} liftState={liftState} />
         )}
       </VStack>
-      {isLoading && (
+      {isPending && (
         <Center mt={"5rem"}>
           <Spinner size={"lg"} />
         </Center>
