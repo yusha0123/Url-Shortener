@@ -113,7 +113,7 @@ const Login = () => {
               </Stack>
               <Stack spacing={3} mt={3}>
                 <Button
-                  colorScheme="messenger"
+                  colorScheme="purple"
                   type="submit"
                   isLoading={login.isPending}
                 >

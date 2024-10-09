@@ -5,20 +5,20 @@ const jwt = require("jsonwebtoken");
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: [true, "Please provide a Username!"],
+    required: true,
     unique: true,
   },
   email: {
     type: String,
-    required: [true, "Please provide an Email!"],
+    required: true,
     unique: true,
   },
   password: {
     type: String,
-    required: [true, "Please provide a Password!"],
+    required: true,
     minlength: 6,
   },
-});
+}, { timestamps: true });
 
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
@@ -34,17 +34,19 @@ UserSchema.methods.matchPasswords = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-UserSchema.methods.generateToken = async function () {
+UserSchema.methods.generateToken = function () {
   try {
-    const token = jwt.sign(
+    return jwt.sign(
       {
         _id: this._id,
       },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "5d"
+      }
     );
-    return token;
   } catch (error) {
-    next(error);
+    throw new Error("Token generation failed!");
   }
 };
 

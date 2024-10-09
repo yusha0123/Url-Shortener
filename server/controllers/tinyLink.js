@@ -17,13 +17,19 @@ const shorten = async (req, res, next) => {
   }
 
   try {
+    // Dynamically get the current server URL
+    const protocol = req.protocol;
+    const host = req.get('host');
     const shortId = shortid.generate();
+    const shortUrl = `${protocol}://${host}/${shortId}`;
+
     const result = await URLs.create({
       userId: req.userId,
-      shortId: shortId,
-      redirectUrl: redirectUrl,
-      shortUrl: `${process.env.SITE_URL}/${shortId}`,
+      redirectUrl,
+      shortUrl,
+      shortId
     });
+
     return res.status(201).json({
       success: true,
       shortUrl: result.shortUrl,
@@ -52,12 +58,9 @@ const getData = async (req, res, next) => {
 
 const deleteUrl = async (req, res, next) => {
   const id = req.params.id;
-  if (!id) {
-    return next(new ErrorResponse("Please provide an ID!", 400));
-  }
-
   try {
     await URLs.findByIdAndDelete(id);
+
     return res.status(200).json({
       success: true,
       message: "URL deleted Successfully!",
@@ -68,12 +71,8 @@ const deleteUrl = async (req, res, next) => {
 };
 
 const updateUrl = async (req, res, next) => {
-  const id = req.params.id;
-  if (!id) {
-    return next(new ErrorResponse("Please provide an ID!", 400));
-  }
-
   const { newUrl } = req.body;
+  const id = req.params.id;
   if (!newUrl) {
     return next(new ErrorResponse("New Url is missing!", 400));
   }

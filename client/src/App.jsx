@@ -1,5 +1,6 @@
 import "./App.css";
 import React, { Suspense, lazy } from "react";
+import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./utils/PrivateRoute";
 import PublicRoute from "./utils/PublicRoute";
@@ -7,12 +8,16 @@ import Loading from "./components/Loading";
 import { useAppContext } from "./hooks/useAppContext";
 
 const App = () => {
-  const Root = lazy(() => import("./routes/Root"));
-  const Home = lazy(() => import("./routes/Home"));
-  const Login = lazy(() => import("./routes/Login"));
-  const Register = lazy(() => import("./routes/Register"));
-  const NotFound = lazy(() => import("./routes/NotFound"));
+  const Root = lazy(() => import("./pages/Root"));
+  const Home = lazy(() => import("./pages/Home"));
+  const Login = lazy(() => import("./pages/Login"));
+  const Register = lazy(() => import("./pages/Register"));
+  const NotFound = lazy(() => import("./pages/NotFound"));
   const { user } = useAppContext();
+
+  if (!import.meta.env.PROD) {
+    axios.defaults.baseURL = import.meta.env.VITE_SERVER_ADDRESS;
+  }
 
   return (
     <Suspense fallback={<Loading />}>

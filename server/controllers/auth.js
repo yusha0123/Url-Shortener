@@ -2,8 +2,9 @@ const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 const validator = require("validator");
 
-exports.register = async (req, res, next) => {
+const register = async (req, res, next) => {
   const { username, email, password } = req.body;
+
   if (!email || !password || !username) {
     return next(new ErrorResponse("Input fields are Mandatory!", 400));
   }
@@ -16,8 +17,11 @@ exports.register = async (req, res, next) => {
     return next(new ErrorResponse("Password is not strong enough!", 400));
   }
 
-  const emailTaken = await User.findOne({ email });
-  const usernameTaken = await User.findOne({ username });
+  const [emailTaken, usernameTaken] = await Promise.all([
+    User.findOne({ email }),
+    User.findOne({ username })
+  ]);
+
   if (emailTaken && usernameTaken) {
     return next(new ErrorResponse("Email and Username already Exists!", 400));
   } else if (emailTaken) {
@@ -33,6 +37,7 @@ exports.register = async (req, res, next) => {
       password,
     });
     const token = await user.generateToken();
+
     res.status(201).json({
       success: true,
       token: token,
@@ -44,7 +49,7 @@ exports.register = async (req, res, next) => {
   }
 };
 
-exports.login = async (req, res, next) => {
+const login = async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return next(new ErrorResponse("Input fields are Mandatory!", 400));
@@ -64,6 +69,7 @@ exports.login = async (req, res, next) => {
     if (!isMatch) {
       return next(new ErrorResponse("Invalid Credentials!", 404));
     }
+
     const token = await user.generateToken();
     res.status(200).json({
       success: true,
@@ -75,3 +81,5 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 };
+
+module.exports = { register, login };

@@ -1,9 +1,8 @@
 const { Router } = require("express");
-const { handleFrontEnd, handleRedirect } = require("../controllers/views");
+const { handleViews } = require("../controllers/views");
 
 const router = Router();
 
-router.route(["/login", "/register", "/home", "/"]).get(handleFrontEnd);
-router.route("/:id").get(handleRedirect);
+router.route("/:id").get(handleViews);
 
 module.exports = router;

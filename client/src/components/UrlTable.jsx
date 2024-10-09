@@ -35,6 +35,7 @@ import {
   Flex,
   Icon,
   Divider,
+  Portal,
 } from "@chakra-ui/react";
 import { LuExternalLink } from "react-icons/lu";
 import { BsClipboardFill } from "react-icons/bs";
@@ -45,7 +46,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useAppContext } from "../hooks/useAppContext";
 import { useErrorHandler } from "../hooks/useErrorHandler";
-import LoadingToast from "./LoadingToast";
 
 const UrlTable = ({ data, liftState }) => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -74,19 +74,29 @@ const UrlTable = ({ data, liftState }) => {
   const deleteMutation = useMutation({
     mutationFn: () => {
       setOpenDialog(false);
-      return axios.delete(`/api/tinylink/${urlId}`, {
+      const promise = axios.delete(`/api/tinylink/${urlId}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       });
+
+      toast.promise(promise, {
+        success: {
+          title: "Url deleted successfully!",
+        },
+        loading: {
+          title: "Deleting url...",
+        },
+        error: {
+          title: "Failed to delete url!",
+        },
+      });
+
+      return promise;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["urls"] });
       liftState();
-      toast({
-        title: "Url deleted!",
-        status: "success",
-      });
     },
     onError: (error) => {
       errorHandler(error);
@@ -110,19 +120,8 @@ const UrlTable = ({ data, liftState }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["urls"] });
-      toast({
-        title: "Url updated!",
-        status: "success",
-      });
     },
     onError: (error) => {
-      if (error.response.data.message == "Invalid URL!") {
-        toast({
-          title: "Invalid Url!",
-          status: "error",
-        });
-        return;
-      }
       errorHandler(error);
     },
   });
@@ -144,13 +143,6 @@ const UrlTable = ({ data, liftState }) => {
 
   return (
     <>
-      {updateMutation.isPending || deleteMutation.isPending ? (
-        <LoadingToast
-          message={
-            updateMutation.isPending ? "Updating url..." : "Deleting url..."
-          }
-        />
-      ) : null}
       <AlertDialog
         isOpen={openDialog}
         leastDestructiveRef={cancelRef}
@@ -221,8 +213,8 @@ const UrlTable = ({ data, liftState }) => {
               Cancel
             </Button>
             <Button
-              colorScheme="telegram"
-              onClick={() => updateMutation.mutate(newUrlRef.current.value)}
+              colorScheme="green"
+              onClick={() => updateMutation.mutate(newUrlRef.current.valueOf())}
             >
               Update
             </Button>
@@ -278,49 +270,51 @@ const UrlTable = ({ data, liftState }) => {
                     >
                       Menu
                     </MenuButton>
-                    <MenuList>
-                      <Link
-                        href={item.shortUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                    <Portal>
+                      <MenuList zIndex={"popover"}>
+                        <Link
+                          href={item.shortUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <MenuItem
+                            display={"flex"}
+                            gap={2}
+                            alignItems={"center"}
+                          >
+                            <Icon as={LuExternalLink} />
+                            Open Link
+                          </MenuItem>
+                        </Link>
                         <MenuItem
                           display={"flex"}
                           gap={2}
                           alignItems={"center"}
+                          onClick={() => handleCopyLink(item.shortUrl)}
                         >
-                          <Icon as={LuExternalLink} />
-                          Open Link
+                          <Icon as={BsClipboardFill} />
+                          Copy Link
                         </MenuItem>
-                      </Link>
-                      <MenuItem
-                        display={"flex"}
-                        gap={2}
-                        alignItems={"center"}
-                        onClick={() => handleCopyLink(item.shortUrl)}
-                      >
-                        <Icon as={BsClipboardFill} />
-                        Copy Link
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => handleEdit(item)}
-                        display={"flex"}
-                        gap={2}
-                        alignItems={"center"}
-                      >
-                        <Icon as={BiSolidEdit} />
-                        Edit Link
-                      </MenuItem>
-                      <MenuItem
-                        display={"flex"}
-                        gap={2}
-                        alignItems={"center"}
-                        onClick={() => handleClick(item._id, "delete")}
-                      >
-                        <Icon as={BiSolidTrash} />
-                        Delete Link
-                      </MenuItem>
-                    </MenuList>
+                        <MenuItem
+                          onClick={() => handleEdit(item)}
+                          display={"flex"}
+                          gap={2}
+                          alignItems={"center"}
+                        >
+                          <Icon as={BiSolidEdit} />
+                          Edit Link
+                        </MenuItem>
+                        <MenuItem
+                          display={"flex"}
+                          gap={2}
+                          alignItems={"center"}
+                          onClick={() => handleClick(item._id, "delete")}
+                        >
+                          <Icon as={BiSolidTrash} />
+                          Delete Link
+                        </MenuItem>
+                      </MenuList>
+                    </Portal>
                   </Menu>
                 </Td>
               </motion.tr>

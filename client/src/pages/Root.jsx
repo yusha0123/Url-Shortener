@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 
 const Root = () => {
   const navigate = useNavigate();
+
   return (
     <section style={{ overflowX: "hidden", width: "100%", minHeight: "100vh" }}>
       <Navbar />
@@ -18,13 +19,18 @@ const Root = () => {
           md: "90%",
           lg: "85%",
         }}
-        maxW={"1024px"}
-        mt={6}
+        px={{
+          base: 5,
+        }}
+        maxW={"1168px"}
+        css={{
+          height: "calc(100dvh - 72px)",
+        }}
       >
         <Grid
           templateColumns={{ base: "1fr", md: "1fr 1fr" }}
           gap={{
-            base: 2,
+            base: 1,
             md: 4,
             lg: 6,
           }}
@@ -42,6 +48,7 @@ const Root = () => {
                 flexDirection: "column",
                 gap: "1.2rem",
                 alignItems: "center",
+                justifyContent: "center",
               }}
             >
               <Heading
@@ -55,7 +62,7 @@ const Root = () => {
                 Effortlessly Condense, Share, and Monitor Your URLs!
               </Heading>
               <Button
-                colorScheme="whatsapp"
+                colorScheme="purple"
                 size={{
                   base: "sm",
                   sm: "md",

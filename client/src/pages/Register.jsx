@@ -56,7 +56,7 @@ const Register = () => {
           minW={{
             lg: "400px",
           }}
-          w={["90%", "65%", "50%", "40%", "25%"]}
+          w={["90%", "75%", "50%", "35%", "25%"]}
           maxW={"576px"}
         >
           <motion.div
@@ -121,7 +121,7 @@ const Register = () => {
               </Stack>
               <Stack spacing={3} mt={3}>
                 <Button
-                  colorScheme="messenger"
+                  colorScheme="purple"
                   type="submit"
                   isLoading={signup.isPending}
                 >
