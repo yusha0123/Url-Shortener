@@ -1,11 +1,11 @@
-import "./App.css";
 import React, { Suspense, lazy } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import PrivateRoute from "./utils/PrivateRoute";
-import PublicRoute from "./utils/PublicRoute";
+import "./App.css";
 import Loading from "./components/Loading";
 import { useAppContext } from "./hooks/useAppContext";
+import PublicRoute from "./components/hoc/PublicRoute";
+import PrivateRoute from "./components/hoc/PrivateRoute";
 
 const App = () => {
   const Root = lazy(() => import("./pages/Root"));

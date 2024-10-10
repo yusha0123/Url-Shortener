@@ -5,6 +5,7 @@ const PrivateRoute = ({ user }) => {
   if (user) {
     return <Outlet />;
   }
+
   return <Navigate to="/login" replace />;
 };
 

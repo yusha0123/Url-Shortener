@@ -15,7 +15,7 @@ export const useErrorHandler = () => {
       logout();
     } else {
       toast({
-        title: "Something went Wrong!",
+        title: error.message || "Something went Wrong!",
         status: "error",
       });
     }
