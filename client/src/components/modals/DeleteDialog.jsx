@@ -13,24 +13,19 @@ import useModalStore from "../../hooks/useModalStore";
 import { modalTypes } from "../../constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useErrorHandler } from "../../hooks/useErrorHandler";
-import { useAppContext } from "../../hooks/useAppContext";
+import axios from "axios";
 
 const DeleteDialog = () => {
   const cancelRef = useRef();
   const { onClose, isOpen, type, data } = useModalStore();
   const queryClient = useQueryClient();
   const toast = useToast();
-  const { user } = useAppContext();
   const { errorHandler } = useErrorHandler();
 
   const deleteMutation = useMutation({
     mutationFn: () => {
-      setOpenDialog(false);
-      const promise = axios.delete(`/api/tinylink/${data?._id}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      onClose();
+      const promise = axios.delete(`/api/tinylink/${data?._id}`);
 
       toast.promise(promise, {
         success: {
@@ -45,7 +40,6 @@ const DeleteDialog = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["urls"] });
-      liftState();
     },
     onError: (error) => {
       errorHandler(error);

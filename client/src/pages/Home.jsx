@@ -18,26 +18,29 @@ import { Navbar } from "../components/Navbar";
 import UrlTable from "../components/UrlTable";
 import { useAppContext } from "../hooks/useAppContext";
 import { useErrorHandler } from "../hooks/useErrorHandler";
+import useModalStore from "../hooks/useModalStore";
+import { modalTypes } from "../constants";
 
 const Home = () => {
   const toast = useToast();
   const { register, handleSubmit, reset } = useForm();
-  const { user } = useAppContext();
   const { errorHandler } = useErrorHandler();
   const queryClient = useQueryClient();
+  const { onOpen } = useModalStore();
 
   const shorten = useMutation({
     mutationFn: async (input) => {
-      const { data } = await axios.post("/api/tinylink/", input, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const { data } = await axios.post("/api/tinylink/", input);
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       reset();
       queryClient.invalidateQueries({ queryKey: ["urls"] });
+
+      onOpen(modalTypes.DETAILS, {
+        longUrl: data?.LongUrl,
+        shortUrl: data?.shortUrl,
+      });
     },
     onError: (error) => {
       if (error.response?.data?.invalidUrl) {
@@ -50,21 +53,23 @@ const Home = () => {
     },
   });
 
-  const { data: userData, isPending } = useQuery({
+  const {
+    data: userData,
+    isPending,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["urls"],
     queryFn: async () => {
-      const { data } = await axios.get("/api/tinylink", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const { data } = await axios.get("/api/tinylink");
       return data;
-    },
-    onError: (error) => {
-      errorHandler(error);
     },
     retry: 0,
   });
+
+  if (isError) {
+    errorHandler(error);
+  }
 
   const onSubmit = (data) => {
     shorten.mutate(data);

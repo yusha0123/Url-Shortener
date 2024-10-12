@@ -6,6 +6,7 @@ import { useAppContext } from "./useAppContext";
 export const useSignup = () => {
   const toast = useToast();
   const { dispatch } = useAppContext();
+
   return useMutation({
     mutationFn: (data) => {
       return axios.post("/api/auth/register", data);
@@ -15,11 +16,10 @@ export const useSignup = () => {
         title: "Registration Successful!",
         status: "success",
       });
-      const user = {
-        email: response.data.email,
-        token: response.data.token,
-      };
-      localStorage.setItem("token", JSON.stringify(user));
+
+      const token = response.data?.token;
+
+      localStorage.setItem("token", token);
       dispatch({
         type: "LOGIN",
         payload: user,

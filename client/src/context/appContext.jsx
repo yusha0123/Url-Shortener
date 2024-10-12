@@ -1,12 +1,11 @@
-import { createContext, useEffect, useReducer, useState } from "react";
-import Loading from "../components/Loading";
+import { createContext, useEffect, useReducer } from "react";
 
 export const AppContext = createContext();
 
-export const appReducer = (state, action) => {
+const appReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      return { user: action.payload };
+      return { user: { token: action.payload } };
     case "LOGOUT":
       return { user: null };
     default:
@@ -19,18 +18,15 @@ export const AppContextProvider = ({ children }) => {
     user: null,
   });
 
-  const [isLoading, setLoading] = useState(true);
-
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = localStorage.getItem("token");
+
     if (token) {
       dispatch({
         type: "LOGIN",
         payload: token,
       });
     }
-
-    setLoading(false);
   }, []);
 
   return (
@@ -40,7 +36,7 @@ export const AppContextProvider = ({ children }) => {
         dispatch,
       }}
     >
-      {isLoading ? <Loading /> : children}
+      {children}
     </AppContext.Provider>
   );
 };

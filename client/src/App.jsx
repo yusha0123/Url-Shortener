@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -18,6 +18,26 @@ const App = () => {
   if (!import.meta.env.PROD) {
     axios.defaults.baseURL = import.meta.env.VITE_SERVER_ADDRESS;
   }
+
+  useEffect(() => {
+    if (user) {
+      const axiosInterceptor = axios.interceptors.request.use(
+        (config) => {
+          if (user?.token) {
+            config.headers.Authorization = `Bearer ${user.token}`;
+          }
+          return config;
+        },
+        (error) => {
+          return Promise.reject(error);
+        }
+      );
+
+      return () => {
+        axios.interceptors.request.eject(axiosInterceptor);
+      };
+    }
+  }, [user]);
 
   return (
     <Suspense fallback={<Loading />}>

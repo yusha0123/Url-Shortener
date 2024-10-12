@@ -41,7 +41,6 @@ const register = async (req, res, next) => {
     res.status(201).json({
       success: true,
       token: token,
-      email: email,
       message: "Registration Successful!",
     });
   } catch (error) {
@@ -74,7 +73,6 @@ const login = async (req, res, next) => {
     res.status(200).json({
       success: true,
       token: token,
-      email: email,
       message: "Login Successful!",
     });
   } catch (error) {

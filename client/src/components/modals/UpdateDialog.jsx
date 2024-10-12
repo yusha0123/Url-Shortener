@@ -21,7 +21,6 @@ import { modalTypes } from "../../constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useErrorHandler } from "../../hooks/useErrorHandler";
 import axios from "axios";
-import { useAppContext } from "../../hooks/useAppContext";
 
 const UpdateDialog = () => {
   const modalSize = useBreakpointValue({ base: "xs", md: "md", xl: "xl" });
@@ -30,22 +29,13 @@ const UpdateDialog = () => {
   const { errorHandler } = useErrorHandler();
   const queryClient = useQueryClient();
   const toast = useToast();
-  const { user } = useAppContext();
 
   const updateMutation = useMutation({
     mutationFn: (newData) => {
       onClose();
-      const promise = axios.put(
-        `/api/tinylink/${data?._id}`,
-        {
-          newUrl: newData,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const promise = axios.put(`/api/tinylink/${data?._id}`, {
+        newUrl: newData,
+      });
 
       toast.promise(promise, {
         success: {
