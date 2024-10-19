@@ -3,6 +3,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { urls } from "@/constants";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
@@ -26,6 +27,17 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
       <NextUIProvider navigate={navigate}>
         <QueryClientProvider client={queryClient}>
           {children}
+          <Toaster
+            toastOptions={{
+              position: "top-center",
+              success: {
+                duration: 3000,
+              },
+              error: {
+                duration: 5000,
+              },
+            }}
+          />
         </QueryClientProvider>
       </NextUIProvider>
     </StrictMode>
