@@ -10,7 +10,7 @@ import {
 
 const Navbar = () => {
   return (
-    <NextUiNavbar isBordered className="py-1">
+    <NextUiNavbar isBordered className="md:py-1">
       <NavbarBrand>
         <Logo />
       </NavbarBrand>

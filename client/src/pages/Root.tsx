@@ -9,10 +9,10 @@ const Root = () => {
       <div className="relative flex flex-col items-center h-full max-w-screen-xl px-4 mx-auto md:flex-row sm:px-6 p-8 lg:h-[calc(100dvh-73px)] mt-auto">
         <div className="flex items-center py-5 md:w-1/2 md:pb-20 md:pt-10 md:pr-10">
           <div className="text-left">
-            <h2 className="text-3xl font-extrabold leading-10 tracking-tight text-gray-800 sm:text-4xl sm:leading-none md:text-5xl">
+            <h2 className="text-2xl font-extrabold leading-10 tracking-tight text-gray-800 sm:text-3xl sm:leading-none md:text-4xl lg:text-5xl">
               Transform Long Links into Tiny, Powerful Connections!
             </h2>
-            <p className="max-w-md mx-auto mt-3 text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            <p className="max-w-md mt-3 text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
               With Tinylink, shorten, share, and track your URLs
               seamlessly—simplify your online experience.
             </p>
