@@ -1,4 +1,6 @@
+import Alert from "@/components/Alert";
 import Logo from "@/components/Logo";
+import { useSignup } from "@/hooks/useSignUp";
 import {
   Button,
   Card,
@@ -8,6 +10,7 @@ import {
   Divider,
   Input,
 } from "@nextui-org/react";
+import { isAxiosError } from "axios";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -24,7 +27,6 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -33,11 +35,12 @@ const Register = () => {
       password: "",
     },
   });
+  const signUp = useSignup();
 
-  const toggleVisibility = () => setIsVisible(!isVisible);
+  const toggleVisibility = () => setIsVisible((prev) => !prev);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    console.log(data);
+    signUp.mutate(data);
   };
 
   return (
@@ -51,6 +54,16 @@ const Register = () => {
           <p className="text-2xl tracking-tight font-bold text-gray-900 text-center">
             Create your account
           </p>
+          {signUp.isError && (
+            <Alert
+              message={
+                isAxiosError(signUp.error) &&
+                signUp.error.response?.data?.message
+                  ? signUp.error.response.data.message
+                  : "Something went wrong!"
+              }
+            />
+          )}
           <form
             className="flex flex-col gap-y-4"
             onSubmit={handleSubmit(onSubmit)}
@@ -133,7 +146,13 @@ const Register = () => {
               isInvalid={!!errors?.password}
               errorMessage={errors?.password?.message as string | undefined}
             />
-            <Button color="primary" radius="sm" className="mt-2" type="submit">
+            <Button
+              color="primary"
+              radius="sm"
+              className="mt-2"
+              type="submit"
+              isLoading={signUp.isPending}
+            >
               Register
             </Button>
           </form>

@@ -1,3 +1,4 @@
+import Alert from "@/components/Alert";
 import Logo from "@/components/Logo";
 import { useLogin } from "@/hooks/useLogin";
 import {
@@ -9,6 +10,7 @@ import {
   Divider,
   Input,
 } from "@nextui-org/react";
+import { isAxiosError } from "axios";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { IoMdEye, IoMdEyeOff, IoMdKey, IoMdMail } from "react-icons/io";
@@ -19,6 +21,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -28,10 +31,12 @@ const Login = () => {
   });
   const login = useLogin();
 
-  const toggleVisibility = () => setIsVisible(!isVisible);
+  const toggleVisibility = () => setIsVisible((prev) => !prev);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    login.mutate(data);
+    login.mutate(data, {
+      onError: () => reset(),
+    });
   };
 
   return (
@@ -45,6 +50,15 @@ const Login = () => {
           <p className="text-2xl tracking-tight font-bold text-gray-900 text-center">
             Sign in to your account
           </p>
+          {login.isError && (
+            <Alert
+              message={
+                isAxiosError(login.error) && login.error.response?.data?.message
+                  ? login.error.response.data.message
+                  : "Something went wrong!"
+              }
+            />
+          )}
           <form
             className="flex flex-col gap-y-4"
             onSubmit={handleSubmit(onSubmit)}
