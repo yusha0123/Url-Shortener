@@ -1,4 +1,5 @@
 import Logo from "@/components/Logo";
+import { useLogin } from "@/hooks/useLogin";
 import {
   Button,
   Card,
@@ -18,7 +19,6 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -26,11 +26,12 @@ const Login = () => {
       password: "",
     },
   });
+  const login = useLogin();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    console.log(data);
+    login.mutate(data);
   };
 
   return (
@@ -95,7 +96,13 @@ const Login = () => {
               isInvalid={!!errors?.password}
               errorMessage={errors?.password?.message as string | undefined}
             />
-            <Button color="primary" radius="sm" className="mt-2" type="submit">
+            <Button
+              color="primary"
+              radius="sm"
+              className="mt-2"
+              type="submit"
+              isLoading={login?.isPending}
+            >
               Login
             </Button>
           </form>

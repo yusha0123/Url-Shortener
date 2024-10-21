@@ -2,7 +2,8 @@ import { Navigate, Outlet } from "react-router-dom";
 import { urls } from "@/constants";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Suspense } from "react";
-import Loading from "../Loading";
+import Loading from "@/components/Loading";
+import Navbar from "@/components/Navbar";
 
 const PrivateRoute = () => {
   const { user } = useAuthStore();
@@ -10,6 +11,7 @@ const PrivateRoute = () => {
   if (user) {
     return (
       <Suspense fallback={<Loading />}>
+        <Navbar />
         <Outlet />
       </Suspense>
     );

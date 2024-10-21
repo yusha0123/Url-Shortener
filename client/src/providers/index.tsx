@@ -4,6 +4,11 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { urls } from "@/constants";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import axios from "axios";
+
+if (!import.meta.env.PROD) {
+  axios.defaults.baseURL = import.meta.env.VITE_SERVER_ADDRESS;
+}
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
