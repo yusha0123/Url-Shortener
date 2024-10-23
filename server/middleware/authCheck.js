@@ -13,10 +13,10 @@ const authCheck = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const result = await User.findOne({ _id: decoded._id });
+    const result = await User.findOne({ email: decoded?.email });
     if (result) {
       //User exists in DB
-      req.userId = decoded._id;
+      req.userId = result._id;
       next();
     } else {
       //User doesn't exists in DB

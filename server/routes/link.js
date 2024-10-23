@@ -4,7 +4,7 @@ const {
   getData,
   deleteUrl,
   updateUrl,
-} = require("../controllers/tinyLink");
+} = require("../controllers/link");
 const authCheck = require("../middleware/authCheck");
 
 const router = express.Router();

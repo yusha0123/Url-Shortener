@@ -5,6 +5,7 @@ import { urls } from "@/constants";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { useAuthStore } from "@/store/useAuthStore";
 
 if (!import.meta.env.PROD) {
   axios.defaults.baseURL = import.meta.env.VITE_SERVER_ADDRESS;
@@ -14,6 +15,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const queryClient = new QueryClient();
   const navigate = useNavigate();
+  const { user } = useAuthStore();
 
   useEffect(() => {
     const currentLocation = Object.values(urls).find(
@@ -26,6 +28,25 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
       document.title = urls.notFound.title;
     }
   }, [location]);
+
+  useEffect(() => {
+    if (user) {
+      const axiosInterceptor = axios.interceptors.request.use(
+        (config) => {
+          if (user?.token) {
+            config.headers.Authorization = `Bearer ${user.token}`;
+          }
+          return config;
+        },
+        (error) => {
+          return Promise.reject(error);
+        }
+      );
+      return () => {
+        axios.interceptors.request.eject(axiosInterceptor);
+      };
+    }
+  }, [user]);
 
   return (
     <StrictMode>

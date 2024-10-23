@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/store/useAuthStore";
+import { isAxiosError } from "axios";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
 
@@ -13,8 +14,14 @@ export const useErrorHandler = () => {
         toast.error("Session expired, please login again!");
         logout();
       } else {
-        const errorMessage =
-          error.message || error.response.message || "Something went wrong!";
+        let errorMessage;
+        const fallbackMessage = "Something went wrong!";
+
+        if (isAxiosError(error)) {
+          errorMessage = error?.response?.data?.message || fallbackMessage;
+        } else {
+          errorMessage = error.message || fallbackMessage;
+        }
         toast.error(errorMessage);
       }
     },
