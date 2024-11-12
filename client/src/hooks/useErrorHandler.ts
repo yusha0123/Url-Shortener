@@ -28,5 +28,5 @@ export const useErrorHandler = () => {
     [logout]
   );
 
-  return { errorHandler };
+  return errorHandler;
 };

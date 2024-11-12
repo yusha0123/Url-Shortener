@@ -19,7 +19,7 @@ const shorten = async (req, res, next) => {
   try {
     // Dynamically get the current server URL
     const protocol = req.protocol;
-    const host = req.get('host');
+    const host = req.get("host");
     const shortId = shortid.generate();
     const shortUrl = `${protocol}://${host}/${shortId}`;
 
@@ -27,13 +27,13 @@ const shorten = async (req, res, next) => {
       userId: req.userId,
       redirectUrl,
       shortUrl,
-      shortId
+      shortId,
     });
 
     return res.status(201).json({
       success: true,
       shortUrl: result.shortUrl,
-      LongUrl: result.redirectUrl,
+      longUrl: result.redirectUrl,
     });
   } catch (error) {
     next(error);

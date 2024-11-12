@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useAuthStore } from "@/store/useAuthStore";
+import ModalProvider from "./ModalProvider";
 
 if (!import.meta.env.PROD) {
   axios.defaults.baseURL = import.meta.env.VITE_SERVER_ADDRESS;
@@ -64,6 +65,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
               },
             }}
           />
+          <ModalProvider />
         </QueryClientProvider>
       </NextUIProvider>
     </StrictMode>
@@ -76,4 +78,4 @@ const ProviderWrapper = () => (
   </AppProvider>
 );
 
-export { AppProvider, ProviderWrapper };
+export { ProviderWrapper };
