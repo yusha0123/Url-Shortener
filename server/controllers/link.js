@@ -48,8 +48,9 @@ const getData = async (req, res, next) => {
         userId: 0,
         shortId: 0,
         updatedAt: 0,
+        __v: 0,
       }
-    );
+    ).sort({ createdAt: -1 });
     return res.status(200).json(data);
   } catch (error) {
     next(error);

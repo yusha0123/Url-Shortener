@@ -3,6 +3,13 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { IoMdCheckmark, IoMdCopy } from "react-icons/io";
 import { FaExternalLinkAlt, FaShareAlt, FaQrcode } from "react-icons/fa";
+import useModalStore from "@/store/useModalStore";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/react";
 
 type Props = {
   urlData: UrlData;
@@ -11,6 +18,7 @@ type Props = {
 const DetailsCard = ({ urlData }: Props) => {
   const [copied1, setCopied1] = useState(false);
   const [copied2, setCopied2] = useState(false);
+  const { onOpen } = useModalStore();
 
   const handleCopy = async (url: string | undefined, index: number) => {
     try {
@@ -89,10 +97,25 @@ const DetailsCard = ({ urlData }: Props) => {
         >
           <FaExternalLinkAlt />
         </Button>
-        <Button isIconOnly aria-label="Share url">
-          <FaShareAlt />
-        </Button>
-        <Button isIconOnly aria-label="Show QR Code">
+        <Dropdown>
+          <DropdownTrigger>
+            <Button isIconOnly aria-label="Share url">
+              <FaShareAlt />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Social ">
+
+          </DropdownMenu>
+        </Dropdown>
+        <Button
+          isIconOnly
+          aria-label="Show QR Code"
+          onClick={() =>
+            onOpen("Qr-Code", {
+              shortUrl: urlData?.shortUrl,
+            })
+          }
+        >
           <FaQrcode />
         </Button>
       </div>

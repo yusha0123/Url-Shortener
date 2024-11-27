@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type ModalType = "Edit" | "Delete" | "Profile";
+type ModalType = "Edit" | "Delete" | "Profile" | "Qr-Code";
 
 interface ModalData {
   longUrl?: string;

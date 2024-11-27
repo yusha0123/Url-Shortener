@@ -1,12 +1,15 @@
+import DetailsCard from "@/components/DetailsCard";
+import UrlCard from "@/components/UrlCard";
 import { useCreateUrl } from "@/hooks/useCreateUrl";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { Button, Divider, Input } from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FaInfoCircle, FaMagic } from "react-icons/fa";
 import { FaLink } from "react-icons/fa6";
 import { IoLink } from "react-icons/io5";
-import { FaInfoCircle, FaMagic } from "react-icons/fa";
-import { useState } from "react";
-import DetailsCard from "@/components/DetailsCard";
 
 const Dashboard = () => {
   const {
@@ -32,6 +35,14 @@ const Dashboard = () => {
       },
     });
   };
+
+  const { data } = useQuery<Url[]>({
+    queryKey: ["urls"],
+    queryFn: async () => {
+      const { data } = await axios.get("/api/link");
+      return data;
+    },
+  });
 
   return (
     <section className="h-full w-full">
@@ -122,6 +133,13 @@ const Dashboard = () => {
           </CardBody>
         )}
       </Card>
+      {data?.length !== 0 && (
+        <div className="py-5 md:py-8 max-w-3xl px-4 sm:px-6 mx-auto flex flex-col gap-y-5">
+          {data?.map((url) => (
+            <UrlCard url={url} key={url._id} />
+          ))}
+        </div>
+      )}
     </section>
   );
 };

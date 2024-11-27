@@ -2,11 +2,16 @@ import { ReactNode, StrictMode, useEffect } from "react";
 import { NextUIProvider } from "@nextui-org/react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { urls } from "@/constants";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useAuthStore } from "@/store/useAuthStore";
 import ModalProvider from "./ModalProvider";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
 
 if (!import.meta.env.PROD) {
   axios.defaults.baseURL = import.meta.env.VITE_SERVER_ADDRESS;
@@ -14,7 +19,12 @@ if (!import.meta.env.PROD) {
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
-  const queryClient = new QueryClient();
+  const errorHandler = useErrorHandler();
+  const queryClient = new QueryClient({
+    queryCache: new QueryCache({
+      onError: (error) => errorHandler(error),
+    }),
+  });
   const navigate = useNavigate();
   const { user } = useAuthStore();
 
