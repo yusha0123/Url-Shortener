@@ -103,9 +103,7 @@ const DetailsCard = ({ urlData }: Props) => {
               <FaShareAlt />
             </Button>
           </DropdownTrigger>
-          <DropdownMenu aria-label="Social ">
-
-          </DropdownMenu>
+          <DropdownMenu aria-label="Social"></DropdownMenu>
         </Dropdown>
         <Button
           isIconOnly

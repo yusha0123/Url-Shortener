@@ -2,7 +2,7 @@ import DetailsCard from "@/components/DetailsCard";
 import UrlCard from "@/components/UrlCard";
 import { useCreateUrl } from "@/hooks/useCreateUrl";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import { Button, Divider, Input } from "@nextui-org/react";
+import { Button, Divider, Input, Skeleton } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
@@ -36,7 +36,7 @@ const Dashboard = () => {
     });
   };
 
-  const { data } = useQuery<Url[]>({
+  const { data, isPending } = useQuery<Url[]>({
     queryKey: ["urls"],
     queryFn: async () => {
       const { data } = await axios.get("/api/link");
@@ -134,9 +134,19 @@ const Dashboard = () => {
         )}
       </Card>
       {data?.length !== 0 && (
-        <div className="py-5 md:py-8 max-w-3xl px-4 sm:px-6 mx-auto flex flex-col gap-y-5">
+        <div className="py-5 md:py-8 w-[95%] md:w-[75%] lg:w-[60%] max-w-3xl px-4 sm:px-6 mx-auto flex flex-col gap-y-3 md:gap-y-5">
           {data?.map((url) => (
             <UrlCard url={url} key={url._id} />
+          ))}
+        </div>
+      )}
+      {isPending && (
+        <div className="py-5 md:py-8 flex flex-col gap-y-3 md:gap-y-5 w-full">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <Skeleton
+              key={index}
+              className="rounded-lg w-[95%] md:w-[75%] lg:w-[60%] max-w-3xl h-44 mx-auto"
+            />
           ))}
         </div>
       )}
