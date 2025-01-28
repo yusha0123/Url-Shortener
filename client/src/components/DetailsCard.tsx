@@ -13,9 +13,10 @@ import {
 
 type Props = {
   urlData: UrlData;
+  setIsSuccess: (success: boolean) => void;
 };
 
-const DetailsCard = ({ urlData }: Props) => {
+const DetailsCard = ({ urlData, setIsSuccess }: Props) => {
   const [copied1, setCopied1] = useState(false);
   const [copied2, setCopied2] = useState(false);
   const { onOpen } = useModalStore();
@@ -117,7 +118,9 @@ const DetailsCard = ({ urlData }: Props) => {
           <FaQrcode />
         </Button>
       </div>
-      <Button className="mt-2">Shorten Another</Button>
+      <Button className="mt-2" onPress={() => setIsSuccess(false)}>
+        Shorten Another
+      </Button>
     </CardBody>
   );
 };

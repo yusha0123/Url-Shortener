@@ -1,23 +1,25 @@
+import { useDeleteUrl } from "@/hooks/useDeleteUrl";
 import useModalStore from "@/store/useModalStore";
 import { Card, CardBody } from "@nextui-org/card";
 import { Button, Link, Tooltip } from "@nextui-org/react";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import {
-  FaExternalLinkAlt,
   FaEdit,
+  FaExternalLinkAlt,
   FaQrcode,
   FaShareAlt,
-  FaCopy,
   FaTrashAlt,
 } from "react-icons/fa";
+import { IoMdCheckmark, IoMdCopy } from "react-icons/io";
 
 type Props = {
   url: Url;
 };
 
 const UrlCard = ({
-  url: { shortUrl, redirectUrl, clicks, createdAt },
+  url: { shortUrl, redirectUrl, clicks, createdAt, _id },
 }: Props) => {
   const formattedDate = format(new Date(createdAt), "dd MMMM yyyy h:mma");
   const domain = new URL(redirectUrl).hostname;
@@ -25,6 +27,8 @@ const UrlCard = ({
   const displayShortUrl = shortUrl.replace(/(^\w+:|^)\/\//, "");
   const [isMobile, setIsMobile] = useState(false);
   const { onOpen } = useModalStore();
+  const deleteUrl = useDeleteUrl();
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -36,6 +40,17 @@ const UrlCard = ({
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleCopyClick = () => {
+    try {
+      navigator.clipboard.writeText(shortUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Failed to copy url!");
+    }
+  };
 
   return (
     <Card radius="sm" shadow="sm">
@@ -79,6 +94,7 @@ const UrlCard = ({
               variant="faded"
               aria-label="Edit"
               radius="sm"
+              isDisabled={deleteUrl.isPending}
               isIconOnly={isMobile}
             >
               <FaEdit />
@@ -112,9 +128,19 @@ const UrlCard = ({
               aria-label="Copy"
               radius="sm"
               isIconOnly={isMobile}
+              onPress={handleCopyClick}
             >
-              <FaCopy />
-              <span className="hidden md:block">Copy</span>
+              {copied ? (
+                <>
+                  <IoMdCheckmark />
+                  <span className="hidden md:block">Copied</span>
+                </>
+              ) : (
+                <>
+                  <IoMdCopy />
+                  <span className="hidden md:block">Copy</span>
+                </>
+              )}
             </Button>
             <Tooltip
               color="danger"
@@ -123,11 +149,17 @@ const UrlCard = ({
               showArrow={true}
             >
               <Button
+                isDisabled={deleteUrl.isPending}
                 isIconOnly
                 variant="faded"
                 color="danger"
                 aria-label="Delete"
                 radius="sm"
+                onPress={() =>
+                  onOpen("Delete", {
+                    _id,
+                  })
+                }
               >
                 <FaTrashAlt />
               </Button>

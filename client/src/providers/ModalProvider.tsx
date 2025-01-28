@@ -1,3 +1,4 @@
+import DeleteModal from "@/components/modals/DeleteModal";
 import QrCodeModal from "@/components/modals/QrCodeModal";
 import UrlManagerModal from "@/components/modals/UrlManagerModal";
 
@@ -6,6 +7,7 @@ const ModalProvider = () => {
     <>
       <UrlManagerModal />
       <QrCodeModal />
+      <DeleteModal />
     </>
   );
 };

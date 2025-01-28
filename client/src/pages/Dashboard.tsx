@@ -67,7 +67,7 @@ const Dashboard = () => {
         </CardHeader>
         <Divider />
         {isSuccess ? (
-          <DetailsCard urlData={urlData!} />
+          <DetailsCard urlData={urlData!} setIsSuccess={setIsSuccess} />
         ) : (
           <CardBody className="px-3 py-5">
             <form
