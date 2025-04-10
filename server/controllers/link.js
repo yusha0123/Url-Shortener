@@ -4,7 +4,7 @@ const shortid = require("shortid");
 const validUrl = require("valid-url");
 
 const shorten = async (req, res, next) => {
-  const { redirectUrl } = req.body;
+  const { redirectUrl, customAlias } = req.body;
   if (!redirectUrl) {
     return next(new ErrorResponse("Please provide an URL!", 400));
   }
@@ -17,17 +17,23 @@ const shorten = async (req, res, next) => {
   }
 
   try {
+    if (customAlias) {
+      const isShortIdExist = await URLs.findOne({ shortId: customAlias });
+      if (isShortIdExist) {
+        return next(new ErrorResponse("Custom alias already exists!", 400));
+      }
+    }
     // Dynamically get the current server URL
     const protocol = req.protocol;
     const host = req.get("host");
     const shortId = shortid.generate();
-    const shortUrl = `${protocol}://${host}/${shortId}`;
+    const shortUrl = `${protocol}://${host}/${customAlias ?? shortId}`;
 
     const result = await URLs.create({
       userId: req.userId,
       redirectUrl,
       shortUrl,
-      shortId,
+      shortId: customAlias || shortId,
     });
 
     return res.status(201).json({

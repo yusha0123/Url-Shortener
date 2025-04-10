@@ -96,6 +96,13 @@ const UrlCard = ({
               radius="sm"
               isDisabled={deleteUrl.isPending}
               isIconOnly={isMobile}
+              onClick={() => {
+                onOpen("Edit", {
+                  longUrl: redirectUrl,
+                  shortUrl,
+                  _id,
+                });
+              }}
             >
               <FaEdit />
               <span className="hidden md:block">Edit</span>

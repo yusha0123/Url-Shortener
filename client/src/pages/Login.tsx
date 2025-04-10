@@ -107,6 +107,7 @@ const Login = () => {
               {...register("password", {
                 required: "Password is required",
               })}
+              autoComplete="off"
               isInvalid={!!errors?.password}
               errorMessage={errors?.password?.message as string | undefined}
             />

@@ -53,9 +53,7 @@ const Navbar = () => {
                   color="secondary"
                   name={user?.username}
                   size="sm"
-                  src={`https://api.multiavatar.com/${
-                    user?.username
-                  }.png?apikey=${import.meta.env.MULTI_AVATAR_KEY}`}
+                  src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.username}`}
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions" variant="flat">
