@@ -23,26 +23,7 @@ const Navbar = () => {
         <Logo />
       </NavbarBrand>
       <NavbarContent justify="end" className="gap-8">
-        {!user ? (
-          <>
-            <NavbarItem className="hidden lg:flex">
-              <Link href="login" color="secondary">
-                Login
-              </Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Button
-                color="secondary"
-                href="register"
-                as={Link}
-                variant="solid"
-                radius="sm"
-              >
-                Sign Up
-              </Button>
-            </NavbarItem>
-          </>
-        ) : (
+        {user ? (
           <NavbarContent as="div" justify="end">
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
@@ -61,13 +42,32 @@ const Navbar = () => {
                   <p className="font-semibold">Signed in as</p>
                   <p className="font-semibold">{user?.email}</p>
                 </DropdownItem>
-                <DropdownItem key="settings">My Profile</DropdownItem>
-                <DropdownItem key="logout" color="danger" onClick={logout}>
+                {/* <DropdownItem key="settings">My Profile</DropdownItem> */}
+                <DropdownItem key="logout" color="danger" onPress={logout}>
                   Log Out
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </NavbarContent>
+        ) : (
+          <>
+            <NavbarItem className="hidden lg:flex">
+              <Link href="login" color="secondary">
+                Login
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                color="secondary"
+                href="register"
+                as={Link}
+                variant="solid"
+                radius="sm"
+              >
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </>
         )}
       </NavbarContent>
     </NextUiNavbar>

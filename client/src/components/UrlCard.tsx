@@ -1,6 +1,6 @@
 import { useDeleteUrl } from "@/hooks/useDeleteUrl";
 import useModalStore from "@/store/useModalStore";
-import { Card, CardBody } from "@heroui/card";
+import { Card, CardBody } from "@heroui/react";
 import { Button, Link, Tooltip } from "@heroui/react";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
@@ -13,6 +13,13 @@ import {
   FaTrashAlt,
 } from "react-icons/fa";
 import { IoMdCheckmark, IoMdCopy } from "react-icons/io";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/react";
+import { socialPlatforms } from "@/constants";
 
 type Props = {
   url: Url;
@@ -50,6 +57,11 @@ const UrlCard = ({
     } catch (error) {
       toast.error("Failed to copy url!");
     }
+  };
+
+  const handleShare = (platform: (typeof socialPlatforms)[0]) => {
+    const shareUrl = platform.shareUrl(shortUrl);
+    window.open(shareUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -96,7 +108,7 @@ const UrlCard = ({
               radius="sm"
               isDisabled={deleteUrl.isPending}
               isIconOnly={isMobile}
-              onClick={() => {
+              onPress={() => {
                 onOpen("Edit", {
                   longUrl: redirectUrl,
                   shortUrl,
@@ -112,7 +124,7 @@ const UrlCard = ({
               aria-label="Generate QR Code"
               radius="sm"
               isIconOnly={isMobile}
-              onClick={() =>
+              onPress={() =>
                 onOpen("Qr-Code", {
                   shortUrl,
                 })
@@ -121,15 +133,40 @@ const UrlCard = ({
               <FaQrcode />
               <span className="hidden md:block">QR Code</span>
             </Button>
-            <Button
-              variant="faded"
+            {/* <Button
+            
               aria-label="Share"
               radius="sm"
               isIconOnly={isMobile}
             >
               <FaShareAlt />
-              <span className="hidden md:block">Share</span>
-            </Button>
+           
+            </Button> */}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  radius="sm"
+                  variant="faded"
+                  isIconOnly={isMobile}
+                  aria-label="Share URL"
+                >
+                  <FaShareAlt />
+                  <span className="hidden md:block">Share</span>
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Social share options">
+                {socialPlatforms.map((platform) => (
+                  <DropdownItem
+                    key={platform.key}
+                    startContent={platform.icon}
+                    onPress={() => handleShare(platform)}
+                  >
+                    {platform.key.charAt(0).toUpperCase() +
+                      platform.key.slice(1)}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
             <Button
               variant="faded"
               aria-label="Copy"

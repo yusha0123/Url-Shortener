@@ -23,17 +23,17 @@ const shorten = async (req, res, next) => {
         return next(new ErrorResponse("Custom alias already exists!", 400));
       }
     }
-    // Dynamically get the current server URL
+
+    const shortId = customAlias || shortid.generate();
     const protocol = req.protocol;
     const host = req.get("host");
-    const shortId = shortid.generate();
-    const shortUrl = `${protocol}://${host}/${customAlias ?? shortId}`;
+    const shortUrl = `${protocol}://${host}/${shortId}`;
 
     const result = await URLs.create({
       userId: req.userId,
       redirectUrl,
       shortUrl,
-      shortId: customAlias || shortId,
+      shortId,
     });
 
     return res.status(201).json({
