@@ -1,4 +1,4 @@
-import { Button, CardBody, Input, Link } from "@nextui-org/react";
+import { Button, CardBody, Input, Link } from "@heroui/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { IoMdCheckmark, IoMdCopy } from "react-icons/io";
@@ -9,7 +9,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 type Props = {
   urlData: UrlData;

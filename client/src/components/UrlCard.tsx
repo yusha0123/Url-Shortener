@@ -1,7 +1,7 @@
 import { useDeleteUrl } from "@/hooks/useDeleteUrl";
 import useModalStore from "@/store/useModalStore";
-import { Card, CardBody } from "@nextui-org/card";
-import { Button, Link, Tooltip } from "@nextui-org/react";
+import { Card, CardBody } from "@heroui/card";
+import { Button, Link, Tooltip } from "@heroui/react";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";

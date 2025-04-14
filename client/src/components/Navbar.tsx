@@ -12,7 +12,7 @@ import {
   Dropdown,
   DropdownMenu,
   Avatar,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 const Navbar = () => {
   const { user, logout } = useAuthStore();

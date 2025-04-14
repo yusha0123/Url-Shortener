@@ -7,7 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import QRCode from "react-qr-code";
 import { FaDownload, FaTimes } from "react-icons/fa";
 import { useRef } from "react";

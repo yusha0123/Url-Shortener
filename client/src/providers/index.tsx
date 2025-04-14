@@ -1,5 +1,5 @@
 import { ReactNode, StrictMode, useEffect } from "react";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { urls } from "@/constants";
 import {
@@ -61,7 +61,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <StrictMode>
-      <NextUIProvider navigate={navigate}>
+      <HeroUIProvider navigate={navigate}>
         <QueryClientProvider client={queryClient}>
           {children}
           <Toaster
@@ -77,7 +77,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
           />
           <ModalProvider />
         </QueryClientProvider>
-      </NextUIProvider>
+      </HeroUIProvider>
     </StrictMode>
   );
 };

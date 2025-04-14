@@ -7,7 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 const DeleteModal = () => {
   const { isOpen, type, data, onClose } = useModalStore();

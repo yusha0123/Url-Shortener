@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroImage from "@/assets/HeroImage.webp";
-import { Button, Link } from "@nextui-org/react";
+import { Button, Link } from "@heroui/react";
 
 const Root = () => {
   return (

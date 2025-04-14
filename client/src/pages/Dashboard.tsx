@@ -1,8 +1,8 @@
 import DetailsCard from "@/components/DetailsCard";
 import UrlCard from "@/components/UrlCard";
 import { useCreateUrl } from "@/hooks/useCreateUrl";
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import { Button, Divider, Input, Skeleton } from "@nextui-org/react";
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Button, Divider, Input, Skeleton } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";

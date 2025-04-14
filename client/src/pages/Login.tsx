@@ -9,7 +9,7 @@ import {
   CardHeader,
   Divider,
   Input,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { isAxiosError } from "axios";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
