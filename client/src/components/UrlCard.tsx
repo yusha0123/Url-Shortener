@@ -133,15 +133,6 @@ const UrlCard = ({
               <FaQrcode />
               <span className="hidden md:block">QR Code</span>
             </Button>
-            {/* <Button
-            
-              aria-label="Share"
-              radius="sm"
-              isIconOnly={isMobile}
-            >
-              <FaShareAlt />
-           
-            </Button> */}
             <Dropdown>
               <DropdownTrigger>
                 <Button
