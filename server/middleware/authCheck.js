@@ -5,18 +5,20 @@ const User = require("../models/User");
 
 const authCheck = async (req, res, next) => {
   let token = req.headers.authorization;
-  if (!token) {
-    return next(new ErrorResponse("User is Unauthorized!", 401));
+  if (!token || !token.startsWith("Bearer ")) {
+    return next(new ErrorResponse("Unauthorized - No token provided", 401));
   }
 
   token = token.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const result = await User.findOne({ _id: decoded._id });
-    if (result) {
+    const user = await User.findOne({ email: decoded?.email }).select(
+      "-password"
+    );
+    if (user) {
       //User exists in DB
-      req.userId = decoded._id;
+      req.userId = user._id;
       next();
     } else {
       //User doesn't exists in DB
