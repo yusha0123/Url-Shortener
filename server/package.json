@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "tiny-link-server",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",

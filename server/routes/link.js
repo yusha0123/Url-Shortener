@@ -5,7 +5,7 @@ const {
   deleteUrl,
   updateUrl,
 } = require("../controllers/link");
-const authCheck = require("../middleware/authCheck");
+const authCheck = require("../middlewares/authCheck");
 
 const router = express.Router();
 
