@@ -52,11 +52,22 @@ const Login = () => {
           </p>
           {login.isError && (
             <Alert
-              message={
-                isAxiosError(login.error) && login.error.response?.data?.message
-                  ? login.error.response.data.message
-                  : "Something went wrong!"
-              }
+              message={(() => {
+                if (isAxiosError(login.error)) {
+                  return (
+                    login.error.response?.data?.message ||
+                    login.error.message ||
+                    "Network error occurred"
+                  );
+                }
+
+                if (login.error instanceof Error) {
+                  return login.error.message;
+                }
+
+                return "An unexpected error occurred during login.";
+              })()}
+              type="error"
             />
           )}
           <form

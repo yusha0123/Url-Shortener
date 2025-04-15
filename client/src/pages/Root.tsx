@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import HeroImage from "@/assets/HeroImage.webp";
 import { Button, Link } from "@heroui/react";
+import { Image } from "@heroui/react";
 
 const Root = () => {
   return (
@@ -31,7 +32,7 @@ const Root = () => {
         </div>
         <div className="flex items-center py-5 md:w-1/2 md:pb-10 md:pt-10 md:pl-10">
           <div className="relative w-full p-3 rounded  md:p-8">
-            <img src={HeroImage} />
+            <Image src={HeroImage} alt="Hero Image" width={"full"} />
           </div>
         </div>
       </div>

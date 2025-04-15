@@ -56,12 +56,22 @@ const Register = () => {
           </p>
           {signUp.isError && (
             <Alert
-              message={
-                isAxiosError(signUp.error) &&
-                signUp.error.response?.data?.message
-                  ? signUp.error.response.data.message
-                  : "Something went wrong!"
-              }
+              message={(() => {
+                if (isAxiosError(signUp.error)) {
+                  return (
+                    signUp.error.response?.data?.message ||
+                    signUp.error.message ||
+                    "Network error occurred"
+                  );
+                }
+
+                if (signUp.error instanceof Error) {
+                  return signUp.error.message;
+                }
+
+                return "An unexpected error occurred during signUp.";
+              })()}
+              type="error"
             />
           )}
           <form

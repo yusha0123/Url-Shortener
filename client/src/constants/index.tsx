@@ -45,15 +45,14 @@ const socialPlatforms = [
   {
     key: "whatsapp",
     icon: <FaWhatsapp className="text-green-500" />,
-    shareUrl: (url: string) => `https://wa.me/?text=${encodeURIComponent(url)}`,
+    shareUrl: (url: string) =>
+      `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`,
   },
   {
     key: "linkedin",
     icon: <FaLinkedin className="text-blue-700" />,
     shareUrl: (url: string) =>
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-        url
-      )}`,
+      `https://www.linkedin.com/shareArticle/?url=${encodeURIComponent(url)}`,
   },
   {
     key: "reddit",
