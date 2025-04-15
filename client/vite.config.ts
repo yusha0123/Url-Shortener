@@ -11,7 +11,6 @@ export default defineConfig({
     },
   },
   build: {
-    target: "esnext",
     outDir: path.resolve(__dirname, "../server/dist"),
     emptyOutDir: true,
   },
