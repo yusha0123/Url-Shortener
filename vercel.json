@@ -1,0 +1,25 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "server/server.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/.*",
+            "dest": "server/server.js"
+        }
+    ],
+    "build": {
+        "env": {
+            "NODE_ENV": "production"
+        },
+        "scripts": {
+            "preinstall": "cd client && npm install",
+            "install": "cd server && npm install",
+            "prebuild": "cd client && npm run build"
+        }
+    }
+}
