@@ -15,11 +15,7 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../server/dist")));
-} else {
-  app.use(express.static(path.join(__dirname, "dist")));
-}
+app.use(express.static(path.join(__dirname, "dist")));
 
 connectDb();
 const port = process.env.PORT || 8080;
